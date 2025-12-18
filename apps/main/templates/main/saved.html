@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Basket page
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>  {{ total_saved_goods }} good(s) in the saved❤ </h3>
+     <div class="row row-gap-4 mt-4">
+    {% for good in saved_goods %}
+      <div class="col-4">{% include 'components/_saved_goods.html' with good=good %} </div>
+    {% endfor %}
+     </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Basket page
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h3>
+        {{ total_basket_items }} good(s) in the basket 🛒
+    </h3>
+     <div class="row row-gap-4 mt-4">
+    {% for item in basket_items %}
+      <div class="col-4">{% include 'components/_basket_items.html' with item=item %} </div>
+    {% endfor %}
+     </div>
+</div>
+{% endblock %}
+

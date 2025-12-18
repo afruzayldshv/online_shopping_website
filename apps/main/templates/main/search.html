@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    {% if goods %}
+    <b>Found: {{ goods.count }}</b>
+    <div class="row row-gap-4 mt-4">
+        {% for good in goods %}
+        <div class="col-4">
+            {% include 'components/_found_good.html' %}
+        </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>
+    <i>Nothing found</i>
+
+</p>
+    {% endif %}
+</div>
+
+{% endblock %}

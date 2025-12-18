@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ good.name }}
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <div class="row row-gap-4">
+        {% for comment in comments %}
+        <div class="col-6">{% include 'components/_comments.html' %}</div>
+          {% endfor %}
+    </div>
+</div>
+{% if request.user.is_authenticated %}
+<div class="mb-4">
+    <form action=""method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary">Send</button>
+    </form>
+</div>
+{% else %}
+<p>
+    <i>Only authenticated users can leave their comments</i>
+    <a href="{% url 'users:login_page' %}">Login</a>
+</p>
+
+{% endif %}
+{% endblock %}

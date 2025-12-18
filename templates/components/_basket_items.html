@@ -1,0 +1,40 @@
+<div class="card" style="width: 18rem;">
+  {% if item.good.image %}
+  <img src="{{ item.good.image.url }}" class="card-img-top" alt="...">
+  {% else %}
+  <img src="https://png.pngtree.com/png-clipart/20230917/original/pngtree-no-image-available-icon-flatvector-illustration-thumbnail-graphic-illustration-vector-png-image_12323920.png" class="card-img-top" alt="...">
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{ item.good.name }}</h5>
+    <p class="card-text">{{ item.good.description }}</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <b>Price: </b>{{ item.good.price }} sums
+    </li>
+    <li class="list-group-item">
+       <b>Category: </b>{{ item.good.category }}
+    </li>
+  </ul>
+    <div class="card-body">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <span class="fw-bold">Quantity:</span>
+<div class="d-flex align-items-center">
+
+    <a href="{% url 'reduce_quantity' item.id %}" class="btn btn-sm btn-outline-secondary">-</a>
+
+    <span class="mx-3 fw-bold">{{ item.quantity }}</span>
+
+    <a href="{% url 'add_quantity' item.id %}" class="btn btn-sm btn-outline-secondary">+</a>
+
+</div>
+    </div>
+
+
+  {% if item.basket.user == request.user %}
+<div class="card-body d-flex gap-2 align-items-center justify-content-center">
+       <a href="{% url 'delete_basket_item' item.id %}" class="btn btn-outline-danger w-100">Delete</a>
+  {% endif %}
+   </div>
+   </div>
+   </div>

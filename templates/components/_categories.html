@@ -1,0 +1,37 @@
+<div class=" mb-4">
+     <a href="{% url 'home_page' %}" class="btn btn-outline-secondary mb-2">
+        Show all {{ total_goods }} goods
+    </a>
+    <div class="d-flex align-items-center gap-4 mb-4">
+    <h5 class="mb-0">Category:</h5>
+<div class="d-flex gap-3 align-items-center flex-wrap">
+      {% for category in categories %}
+    <div>
+        <button class="btn btn-outline-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#subcategory-{{ category.id }}"
+                            aria-expanded="false">
+                        {{ category.name }} ({{ category.goods_count }})
+                    </button>
+
+         <div class="collapse mt-2" id="subcategory-{{ category.id }}">
+                        <div class="d-flex flex-wrap gap-2">
+                                <a href="?category={{ category.id }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    All {{ category.name }}
+                                </a>
+                            {% for subcategory in category.subcategories.all %}
+                            <a href="?subcategory={{ subcategory.id }}"
+                               class="btn btn-sm btn-outline-secondary">
+                                {{ subcategory.name }}
+                        </a>
+                            {% endfor %}
+                    </div>
+                </div>
+           </div>
+        {% endfor %}
+</div>
+</div>
+</div>
+
