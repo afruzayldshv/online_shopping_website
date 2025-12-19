@@ -28,28 +28,28 @@ def show_home_page(request):
     return render(request,'main/index.html',context)
 
 
-def add_to_basket(request,good_id):
+def add_to_basket(request, good_id):
     if not request.user.is_authenticated:
         return redirect('users:login_page')
 
-    good=get_object_or_404(Good,id=good_id)
-    basket,basket_created=Basket.objects.get_or_create(user=request.user)
-    basket_item,item_created=BasketItem.objects.get_or_create(
-                basket=basket,
-                good=good,
-                defaults={'quantity':1}
-                    )
-    if not item_created:
-                basket_item.quantity += 1
-                basket_item.save()
+    try:
+        good = Good.objects.get(id=good_id)
+        basket = Basket.objects.get(user=request.user)
+    except Basket.DoesNotExist:
+        basket = Basket.objects.create(user=request.user)
 
+    try:
+        basket_item = BasketItem.objects.get(basket=basket, good=good)
+        basket_item.quantity += 1
+        basket_item.save()
+    except BasketItem.DoesNotExist:
+        basket_item = BasketItem.objects.create(
+            basket=basket,
+            good=good,
+            quantity=1
+        )
 
-    context={
-        'basket':basket,
-        'basket_item':basket_item
-    }
     return redirect('basket_page')
-
 
 def add_quantity(request,item_id):
         basket_item=get_object_or_404(BasketItem,id=item_id)
@@ -112,23 +112,25 @@ def delete_comment(request,comment_id):
         comment.delete()
         return redirect('good_page',good_id)
 
-
 def add_to_saved(request,good_id):
     if not request.user.is_authenticated:
         return redirect('users:login_page')
 
-    good=get_object_or_404(Good,id=good_id)
-    saved,saved_created=Saved.objects.get_or_create(user=request.user)
-    saved_good,saved_good_created=SavedGood.objects.get_or_create(
-                saved=saved,
-                good=good,
+    try:
+        good=Good.objects.get(id=good_id)
+        saved=Saved.objects.get(user=request.user)
+    except Saved.DoesNotExist:
+        saved=Saved.objects.create(
+            saved=saved
+        )
 
-                    )
-
-    context={
-        'saved':saved,
-        'saved_good':saved_good
-    }
+    try:
+        saved_good=SavedGood.objects.get(saved=saved,good=good)
+    except SavedGood.DoesNotExist:
+        saved_good=SavedGood.objects.create(
+            saved=saved,
+            good=good
+        )
     return redirect('saved_page')
 
 def show_saved_page(request):
